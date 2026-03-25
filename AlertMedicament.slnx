@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AlertMedicament.API/AlertMedicament.API.csproj" />
+  <Project Path="AlertMedicament.Application/AlertMedicament.Application.csproj" />
+  <Project Path="AlertMedicament.Domain/AlertMedicament.Domain.csproj" />
+  <Project Path="AlertMedicament.Infrastructure/AlertMedicament.Infrastructure.csproj" />
+  <Project Path="Tests/AlertMedicament.Tests/AlertMedicament.Tests.csproj" />
+</Solution>
