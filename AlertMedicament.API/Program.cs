@@ -1,21 +1,48 @@
+using AlertMedicament.Application.DependencyInjection;
+using AlertMedicament.Infrastructure.DependencyInjection;
+using Scalar.AspNetCore;  
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// =============================================
+// 1. Servicios de Aplicación
+// =============================================
+builder.Services.AddApplicationServices();
 
+// =============================================
+// 2. Servicios de Infraestructura
+// =============================================
+builder.Services.AddInfrastructureServices(builder.Configuration);
+
+// =============================================
+// 3. Configuración de la API
+// =============================================
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+builder.Services.AddOpenApi();           // Necesario para generar el JSON OpenAPI
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// =============================================
+// 4. Pipeline - SOLO Scalar (como querías)
+// =============================================
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapOpenApi();                   // Expone el archivo OpenAPI en /openapi/v1.json
+
+    // Scalar - Configuración oficial
+    app.MapScalarApiReference(options =>
+    {
+        options
+            .WithTitle("AlertMedicament API")
+            .WithTheme(ScalarTheme.DeepSpace)     // Tema oscuro profesional
+            .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+    });
+
+    // Redirección automática de la raíz a Scalar
+    app.MapGet("/", () => Results.Redirect("/scalar"));
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();

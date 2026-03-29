@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: alertmedicament_postgres
+    restart: always
+
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 15835044
+      POSTGRES_DB: alertmedicament
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    networks:
+      - alertmedicament_network
+
+
+  redis:
+    image: redis:7
+    container_name: alertmedicament_redis
+    restart: always
+
+    ports:
+      - "6379:6379"
+
+    networks:
+      - alertmedicament_network
+
+
+volumes:
+
+  postgres_data:
+
+
+networks:
+
+  alertmedicament_network:
